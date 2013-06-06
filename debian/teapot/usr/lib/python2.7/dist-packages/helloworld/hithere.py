@@ -1,1 +1,0 @@
-../../../../share/pyshared/helloworld/hithere.py

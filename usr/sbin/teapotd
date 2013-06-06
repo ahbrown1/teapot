@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+
+from daemon.daemon import DaemonContext
+import time
+import lockfile
 import sys, logging, time
 import logging.handlers
 from helloworld.hithere import hail
@@ -15,7 +20,8 @@ def main() :
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-    hail() 
+    with DaemonContext(pidfile=lockfile.FileLock('/var/run/teapotd.pid')):
+        hail() 
 
 
 
