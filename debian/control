@@ -1,0 +1,14 @@
+Source: teapot
+Section: test 
+Priority: extra
+Maintainer: Art Brown <ahbrown1@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+#Vcs-Git: git://git.debian.org/collab-maint/teapot.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/teapot.git;a=summary
+
+Package: teapot
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: I'm a little teapot 
+ I am.

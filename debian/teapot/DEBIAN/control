@@ -1,0 +1,10 @@
+Package: teapot
+Version: 1.0
+Architecture: amd64
+Maintainer: Art Brown <ahbrown1@gmail.com>
+Installed-Size: 56
+Depends: python2.7, python (>= 2.7.1-0ubuntu2), python (<< 2.8)
+Section: test
+Priority: extra
+Description: I'm a little teapot
+ I am.
