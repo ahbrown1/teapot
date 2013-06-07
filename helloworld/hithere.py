@@ -1,10 +1,15 @@
 #!/usr/bin/env python
-import sys, logging, time
+import sys, logging, time, os
 
 
-def hail() :
+def run() :
+    return hail()
 
-    logger = logging.getLogger('main')
+
+def hail(pidfile=None) :
+
+    logger = logging.getLogger('root')
+
     ident = 'dunno'
     if len(sys.argv) > 1 :
         ident = sys.argv[1]
@@ -25,9 +30,9 @@ def main() :
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-    hail() 
+    hail(pidfile='hail.pid') 
 
 
 
-if __name__ == '__main__' :
+if __name__ == "__main__" :
    sys.exit(main())

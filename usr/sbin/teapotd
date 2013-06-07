@@ -1,29 +1,93 @@
 #!/usr/bin/env python
 
-
+import importlib
+import argparse
 from daemon.daemon import DaemonContext
 import time
 import lockfile
-import sys, logging, time
+import sys, logging, time, os
 import logging.handlers
 from helloworld.hithere import hail
 
+class ForegroundContext:
+        def __enter__(self):
+            return None # does nothing
+
+        def __exit__(self, type, value, traceback):
+            return True  # does not much more
 
 def main() :
+    parser = argparse.ArgumentParser()
 
-    logger = logging.getLogger('main')
-    #handler = logging.handlers.SysLogHandler( facility=logging.handlers.SysLogHandler.LOG_LOCAL7)
-    handler = logging.handlers.SysLogHandler( address='/dev/log')
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s ---> %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
+    parser.add_argument('module', help='Python run module',)
 
-    with DaemonContext(pidfile=lockfile.FileLock('/var/run/teapotd.pid')):
-        hail() 
+    parser.add_argument('--foreground', help='run in foreground',
+                         default=False,
+                         action="store_true")
 
+    parser.add_argument('--pidfile', help='PID file path',
+                        default="/var/run/%(prog)s.pid" )
 
+    parser.add_argument('--lockfile', help='PID file path',
+                        default="/var/run/%(prog)s_lock.pid" )
+
+    parser.add_argument('--verbosity', help='verbosity level',
+                        default="warn" )
+
+    args = parser.parse_args()
+
+    print "HERE"
+    if args.foreground :
+        context = ForegroundContext()
+    else :
+        context = DaemonContext(
+                 pidfile=lockfile.FileLock(args.lockfile),
+              )
+
+    with context :
+
+        logger = logging.getLogger('root')
+        if args.foreground :
+            handler = logging.StreamHandler(sys.stdout)
+            formatter = logging.Formatter('%(levelname)s: %(message)s')
+        else :
+            handler = logging.handlers.SysLogHandler( address='/dev/log')
+            formatter = logging.Formatter('%(levelname)s: %(asctime)s ---> %(message)s')
+
+        handler.setLevel(logging.DEBUG)
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(logging.DEBUG)
+
+        if args.foreground :
+           pidfile = "./pid.pid"
+        else :
+           pidfile = args.pidfile
+        #with open( pidfile, 'w' ) :
+        #    f.write("%s"%os.getpid())
+
+        if args.module is None :
+            raise Exception("Module name missing")
+        print "H1"
+        try :
+            module = importlib.import_module(args.module)
+        except Exception as e :
+            logger.error("Failed to import module %s : %s"%(args.module, e))
+            return 3
+
+        rv = 3
+
+        if  (hasattr( module, 'run' ) and hasattr(module.run, '__call__')):
+            try:
+                rv = module.run()
+                if rv is None:
+                    rv = 0
+            except Exception as e:
+                logger.error("Execution failure for module %s : %s"%(args.module, e))
+        else :
+            logger.error("Module [%s] does not have a 'run' method"%args.module)
+ 
+        return rv
 
 if __name__ == '__main__' :
    sys.exit(main())
