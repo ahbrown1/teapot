@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 NAME		= 'teapot'
-VERSION 	= '1.0'
+VERSION 	= '1.1.0'
 DESCRIPTION	= 'I\'m a little tea pot'
 
 
