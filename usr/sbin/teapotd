@@ -28,7 +28,7 @@ def main() :
                          action="store_true")
 
     parser.add_argument('--pidfile', help='PID file path',
-                        default="/var/run/%(prog)s.pid" )
+                        default=None )
 
     parser.add_argument('--lockfile', help='PID file path',
                         default="/var/run/%(prog)s_lock.pid" )
@@ -70,15 +70,18 @@ def main() :
         if bad_level :
             logger.error("Invalid verbosity (%s): defaulted to %s"%(args.verbosity, DFLT_LEVEL))
 
-        if args.foreground :
-           pidfile = "./pid.pid"
+        if  args.pidfile is None :
+            prog = os.path.basename(sys.argv[0])
+            if args.foreground :
+                pidfile = "./%s.pid"%prog
+            else :
+                pidfile = "/var/run/%s.pid"%prog
         else :
            pidfile = args.pidfile
-        #with open( pidfile, 'w' ) :
-        #    f.write("%s"%os.getpid())
 
         if args.module is None :
             raise Exception("Module name missing")
+
         try :
             module = importlib.import_module(args.module)
         except Exception as e :
@@ -88,12 +91,22 @@ def main() :
         rv = 3
 
         if  (hasattr( module, 'run' ) and hasattr(module.run, '__call__')):
-            try:
+            try :
+                with open( pidfile, 'w' ) as fobj :
+                    fobj.write("%s"%os.getpid())
+
                 rv = module.run()
                 if rv is None:
                     rv = 0
+
             except Exception as e:
-                logger.error("Execution failure for module %s : %s"%(args.module, e))
+                    logger.error("Execution failure for module %s : %s"%(args.module, e))
+
+            finally :
+                try:
+                    os.unlink(pidfile) 
+                except Exception:
+                    pass
         else :
             logger.error("Module [%s] does not have a 'run' method"%args.module)
  
