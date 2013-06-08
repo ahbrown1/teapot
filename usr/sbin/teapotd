@@ -9,6 +9,8 @@ import sys, logging, time, os
 import logging.handlers
 from helloworld.hithere import hail
 
+DFLT_LEVEL = 'WARN'
+
 class ForegroundContext:
         def __enter__(self):
             return None # does nothing
@@ -32,11 +34,18 @@ def main() :
                         default="/var/run/%(prog)s_lock.pid" )
 
     parser.add_argument('--verbosity', help='verbosity level',
-                        default="warn" )
+                        default=DFLT_LEVEL )
 
     args = parser.parse_args()
 
-    print "HERE"
+    bad_level = False
+    lvl = args.verbosity.upper()
+    try :
+        level = getattr( logging, lvl ) 
+    except AttributeError :
+        bad_level = True
+        level = getattr( logging, DFLT_LEVEL.upper() ) 
+       
     if args.foreground :
         context = ForegroundContext()
     else :
@@ -49,15 +58,17 @@ def main() :
         logger = logging.getLogger('root')
         if args.foreground :
             handler = logging.StreamHandler(sys.stdout)
-            formatter = logging.Formatter('%(levelname)s: %(message)s')
         else :
             handler = logging.handlers.SysLogHandler( address='/dev/log')
-            formatter = logging.Formatter('%(levelname)s: %(asctime)s ---> %(message)s')
 
-        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(levelname)s: %(message)s')
+        handler.setLevel(level)
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(level)
+
+        if bad_level :
+            logger.error("Invalid verbosity (%s): defaulted to %s"%(args.verbosity, DFLT_LEVEL))
 
         if args.foreground :
            pidfile = "./pid.pid"
@@ -68,7 +79,6 @@ def main() :
 
         if args.module is None :
             raise Exception("Module name missing")
-        print "H1"
         try :
             module = importlib.import_module(args.module)
         except Exception as e :
