@@ -12,7 +12,7 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     license="Proprietary",
-    packages=['helloworld'],
+    packages=['daemonizer', 'daemonizer.test'],
     data_files=[
 	    ('/usr/sbin', [ 'usr/sbin/teapotd' ]),
     ]
