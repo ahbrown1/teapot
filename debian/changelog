@@ -1,8 +1,39 @@
+teapot (1.2.5) unstable; urgency=low
+
+  *  re-version
+
+ -- Art Brown <artb@horse99>  Mon, 10 Jun 2013 02:12:21 -0500
+
+teapot (1.2.4) unstable; urgency=low
+
+  *  preinstall python-daemon
+  * 
+
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 01:48:48 -0500
+
+teapot (1.2.2) unstable; urgency=low
+
+  * Signing
+
+ -- Art Brown <ahbrown1@gmail.com9>  Mon, 10 Jun 2013 00:37:15 -0500
+
+teapot (1.2.1)  unstable; urgency=low
+
+  *  Signing 
+
+ -- Art Brown <ahbrown1@gmail.com>  Sun, 09 Jun 2013 03:37:12 -0500
+
+teapot (1.2.0) unstable; urgency=low
+
+  * Signed package
+
+ -- Art Brown <ahbrown1@gmail.com>  Sun, 09 Jun 2013 03:10:00 -0500
+
 teapot (1.1.0) unstable; urgency=low
 
   * daemon wrapper version
 
- -- Art Brown <artb@horse99>  Sat, 08 Jun 2013 04:52:42 -0500
+ -- Art Brown <ahbrown1@gmail.com>  Sat, 08 Jun 2013 04:52:42 -0500
 
 teapot (1.0) unstable; urgency=low
 
