@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 NAME		= 'teapot'
-VERSION 	= '1.2.5'
+VERSION 	= '1.2.8'
 DESCRIPTION	= 'I\'m a little tea pot'
 
 
@@ -13,7 +13,7 @@ setup(
     description=DESCRIPTION,
     license="Proprietary",
     packages=['daemonizer', 'daemonizer.test'],
-    install_requires=['python-daemon'],
+#    install_requires=['python-daemon'],
     data_files=[
 	    ('/usr/sbin', [ 'usr/sbin/daemonizer' ]),
     ]

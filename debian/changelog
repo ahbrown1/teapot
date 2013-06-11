@@ -1,8 +1,32 @@
+teapot (1.2.8) unstable; urgency=low
+
+  * 
+
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 23:38:22 -0500
+
+teapot (1.2.7) unstable; urgency=low
+
+  * 
+
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 23:36:05 -0500
+
+teapot (1.2.7)  unstable; urgency=low
+
+  * 
+
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 21:38:09 -0500
+
+teapot (1.2.6) unstable; urgency=low
+
+  *  Add dependency on archive-python-daemon
+
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 21:33:04 -0500
+
 teapot (1.2.5) unstable; urgency=low
 
   *  re-version
 
- -- Art Brown <artb@horse99>  Mon, 10 Jun 2013 02:12:21 -0500
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 02:12:21 -0500
 
 teapot (1.2.4) unstable; urgency=low
 
@@ -15,7 +39,7 @@ teapot (1.2.2) unstable; urgency=low
 
   * Signing
 
- -- Art Brown <ahbrown1@gmail.com9>  Mon, 10 Jun 2013 00:37:15 -0500
+ -- Art Brown <ahbrown1@gmail.com>  Mon, 10 Jun 2013 00:37:15 -0500
 
 teapot (1.2.1)  unstable; urgency=low
 
